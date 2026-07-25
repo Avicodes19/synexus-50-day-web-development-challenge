@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #b57edc;
+  --text-color: #000000;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+h1 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
