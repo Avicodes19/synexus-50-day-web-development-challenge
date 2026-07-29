@@ -15,6 +15,7 @@ body {
 }
 h1 {
   margin-bottom: 20px;
+  font-size: clamp(2rem, 6vw, 4rem);
   color: var(--primary-color);
 }
 header {
@@ -121,4 +122,26 @@ nav a:hover {
 }
 .featured {
   grid-column: span 2;
+}
+@media (max-width: 900px) {
+  .initiatives-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .initiatives-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+nav {
+  flex-direction: column;
+  gap: 20px;
+  text-align: centre;
+}
+nav ul {
+  flex-direction: column;
+  gap: 15px;
+}
+header {
+  padding: 20px;
 }

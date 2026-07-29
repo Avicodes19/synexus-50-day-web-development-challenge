@@ -5,3 +5,4 @@
 ✅ Day 3 – Flexbox Layout
 ✅ Day 4 – Profile Cards
 ✅ Day 5 – CSS Grid Layout
+✅ Day 6 – Mobile Responsiveness and Media Queries
