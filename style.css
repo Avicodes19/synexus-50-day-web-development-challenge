@@ -4,9 +4,10 @@
   box-sizing: border-box;
 }
 :root {
-  --primary-color: #a78bfa;
-  --text-color: #111111;
-  --background-color: #fcfaff;
+  --primary-two: #8b5cf6;
+  --primary-color: #6d28d9;
+  --primary-light: #f5f3ff;
+  --text-color: #111827;
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -249,4 +250,33 @@ nav a {
 }
 nav a:hover {
   color: var(--primary-color);
+}
+.skip-link {
+  position: absolute;
+  top: -50px;
+  left: 20px;
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 18px;
+  text-decoration: none;
+  border-radius: 8px;
+  z-index: 1000;
+}
+.skip-link:focus {
+  top: 20px;
+}
+input:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+button:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+a:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
 }
