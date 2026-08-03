@@ -11,3 +11,4 @@
 ✅ Day 9 – Accessibility
 ✅ Day 10 – Changed Color Scheme. Phase I Complete.
 ✅ Day 11 – Started JS
+✅ Day 12 – Mobile Menu Toggle
