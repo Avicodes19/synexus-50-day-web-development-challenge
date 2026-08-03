@@ -359,3 +359,6 @@ footer hr {
   color: #94a3b8;
   font-size: 15px;
 }
+.active-state {
+  color: var(--primary-color);
+}
