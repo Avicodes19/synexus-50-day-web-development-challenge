@@ -425,7 +425,32 @@ footer hr {
 }
 .active-project {
   border-left: 5px solid #22c55e;
+  border-right: 5px solid #22c55e;
 }
 .completed-project {
   border-left: 5px solid #94a3b8;
+  border-right: 5px solid #94a3b8;
+}
+#search-projects {
+  width: 200%;
+  max-width: 1000px;
+  display: block;
+  margin: 40px auto;
+  padding: 15px 20px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #0b3767;
+  color: white;
+  font-size: 16px;
+}
+
+#search-projects::placeholder {
+  color: #94a3b8;
+}
+
+#search-projects:focus {
+  outline: none;
+  border: 2px solid var(--primary-color);
 }

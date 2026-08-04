@@ -63,17 +63,39 @@ const projectsData = [
   },
 ];
 const dynamicGrid = document.getElementById("dynamic-grid");
-projectsData.forEach(function (project) {
-  const borderClass =
-    project.status === "Active" ? "active-project" : "completed-project";
 
-  const card = `
-    <div class="initiative-card ${borderClass}">
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <p>${project.status}</p>
-    </div>
-  `;
+function renderProjects(dataArray) {
+  dynamicGrid.innerHTML = "";
+  if (dataArray.length === 0) {
+    dynamicGrid.innerHTML = `
+        <p>No initiatives match your search.</p>
+    `;
+    return;
+  }
+  dataArray.forEach(function (project) {
+    const borderClass =
+      project.status === "Active" ? "active-project" : "completed-project";
 
-  dynamicGrid.innerHTML += card;
+    const card = `
+            <div class="initiative-card ${borderClass}">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+                <p>${project.status}</p>
+            </div>
+        `;
+
+    dynamicGrid.innerHTML += card;
+  });
+}
+renderProjects(projectsData);
+const searchInput = document.getElementById("search-projects");
+
+searchInput.addEventListener("input", function () {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  const filteredProjects = projectsData.filter(function (project) {
+    return project.title.toLowerCase().includes(searchTerm);
+  });
+
+  renderProjects(filteredProjects);
 });

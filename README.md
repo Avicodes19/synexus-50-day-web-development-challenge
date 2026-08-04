@@ -14,3 +14,4 @@
 ✅ Day 12 – Mobile Menu Toggle
 ✅ Day 13 – Message Form
 ✅ Day 14 – Dynamic Rendering of Initiative Cards
+✅ Day 15 – Search Bar and Logic
