@@ -13,3 +13,4 @@
 ✅ Day 11 – Started JS
 ✅ Day 12 – Mobile Menu Toggle
 ✅ Day 13 – Message Form
+✅ Day 14 – Dynamic Rendering of Initiative Cards
