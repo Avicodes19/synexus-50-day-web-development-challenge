@@ -423,3 +423,9 @@ footer hr {
     gap: 15px;
   }
 }
+.active-project {
+  border-left: 5px solid #22c55e;
+}
+.completed-project {
+  border-left: 5px solid #94a3b8;
+}

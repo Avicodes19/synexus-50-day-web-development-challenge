@@ -37,3 +37,43 @@ form.addEventListener("submit", function (e) {
     form.reset();
   }
 });
+const projectsData = [
+  {
+    title: "Annual Hackathon",
+    description:
+      "A 24-hour coding marathon where teams build innovative solutions.",
+    status: "Active",
+  },
+  {
+    title: "Technical Competitions",
+    description:
+      "Coding contests, paper presentations and innovation challenges.",
+    status: "Completed",
+  },
+  {
+    title: "Guest Speaker Sessions",
+    description: "Industry experts share their experiences and career advice.",
+    status: "Active",
+  },
+  {
+    title: "Open Source Projects",
+    description:
+      "Collaborate on GitHub projects and contribute to open source.",
+    status: "Active",
+  },
+];
+const dynamicGrid = document.getElementById("dynamic-grid");
+projectsData.forEach(function (project) {
+  const borderClass =
+    project.status === "Active" ? "active-project" : "completed-project";
+
+  const card = `
+    <div class="initiative-card ${borderClass}">
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <p>${project.status}</p>
+    </div>
+  `;
+
+  dynamicGrid.innerHTML += card;
+});
