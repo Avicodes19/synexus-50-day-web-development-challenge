@@ -1,3 +1,35 @@
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const savedData = localStorage.getItem("synexus_form_draft");
+
+if (savedData) {
+  const formData = JSON.parse(savedData);
+
+  nameInput.value = formData.name;
+  emailInput.value = formData.email;
+}
+nameInput.addEventListener("input", saveDraft);
+emailInput.addEventListener("input", saveDraft);
+function saveDraft() {
+  const formData = {
+    name: nameInput.value,
+    email: emailInput.value,
+  };
+
+  const stringData = JSON.stringify(formData);
+
+  localStorage.setItem("synexus_form_draft", stringData);
+
+  clearTimeout(saveTimer);
+
+  saveStatus.textContent = "✓ Draft Saved Automatically";
+  saveStatus.classList.add("show");
+
+  saveTimer = setTimeout(function () {
+    saveStatus.classList.remove("show");
+  }, 2000);
+}
+
 const heading = document.querySelector("#home h1");
 const button = document.querySelector("#home a");
 button.addEventListener("click", function () {
@@ -34,6 +66,7 @@ form.addEventListener("submit", function (e) {
     alert("Please enter a message.");
   } else {
     console.log("Application Ready for Server");
+    localStorage.removeItem("synexus_form_draft");
     form.reset();
   }
 });
@@ -99,3 +132,6 @@ searchInput.addEventListener("input", function () {
 
   renderProjects(filteredProjects);
 });
+const saveStatus = document.getElementById("save-status");
+
+let saveTimer;
