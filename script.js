@@ -136,3 +136,104 @@ searchInput.addEventListener("input", function () {
 const saveStatus = document.getElementById("save-status");
 
 let saveTimer;
+const testimonialsData = [
+  {
+    name: "XYZ",
+    role: "Student",
+    quote:
+      "Synexus Core gave me the opportunity to work with talented people, build real projects, and develop skills that actually matter.",
+    image: "https://cdn-icons-png.flaticon.com/512/9131/9131529.png",
+  },
+
+  {
+    name: "XYZ",
+    role: "Tech Enthusiast",
+    quote:
+      "Being part of Synexus Core helped me turn ideas into actual projects while learning from people who were just as passionate about technology.",
+    image: "https://cdn-icons-png.flaticon.com/512/9131/9131529.png",
+  },
+
+  {
+    name: "XYZ",
+    role: "Advanced Programmer",
+    quote:
+      "The community gave us a space to experiment, collaborate, fail, learn, and build things we were genuinely proud of.",
+    image: "https://cdn-icons-png.flaticon.com/512/9131/9131529.png",
+  },
+];
+
+let currentIndex = 0;
+
+const testimonialName = document.getElementById("testimonial-name");
+const testimonialRole = document.getElementById("testimonial-role");
+const testimonialQuote = document.getElementById("testimonial-quote");
+const testimonialImage = document.getElementById("testimonial-image");
+
+const nextButton = document.getElementById("next-testimonial");
+const prevButton = document.getElementById("prev-testimonial");
+
+function updateTestimonial() {
+  const currentData = testimonialsData[currentIndex];
+
+  testimonialName.textContent = currentData.name;
+  testimonialRole.textContent = currentData.role;
+  testimonialQuote.textContent = currentData.quote;
+  testimonialImage.src = currentData.image;
+  testimonialImage.alt = currentData.name;
+
+  currentIndex++;
+
+  if (currentIndex === testimonialsData.length) {
+    currentIndex = 0;
+  }
+}
+
+updateTestimonial();
+
+let testimonialTimer = setInterval(updateTestimonial, 3000);
+
+nextButton.addEventListener("click", function () {
+  clearInterval(testimonialTimer);
+
+  currentIndex++;
+
+  if (currentIndex >= testimonialsData.length) {
+    currentIndex = 0;
+  }
+
+  const currentData = testimonialsData[currentIndex];
+
+  testimonialName.textContent = currentData.name;
+  testimonialRole.textContent = currentData.role;
+  testimonialQuote.textContent = currentData.quote;
+  testimonialImage.src = currentData.image;
+  testimonialImage.alt = currentData.name;
+
+  testimonialTimer = setInterval(updateTestimonial, 3000);
+});
+
+prevButton.addEventListener("click", function () {
+  clearInterval(testimonialTimer);
+
+  currentIndex -= 2;
+
+  if (currentIndex < 0) {
+    currentIndex = testimonialsData.length - 1;
+  }
+
+  const currentData = testimonialsData[currentIndex];
+
+  testimonialName.textContent = currentData.name;
+  testimonialRole.textContent = currentData.role;
+  testimonialQuote.textContent = currentData.quote;
+  testimonialImage.src = currentData.image;
+  testimonialImage.alt = currentData.name;
+
+  currentIndex++;
+
+  if (currentIndex === testimonialsData.length) {
+    currentIndex = 0;
+  }
+
+  testimonialTimer = setInterval(updateTestimonial, 3000);
+});

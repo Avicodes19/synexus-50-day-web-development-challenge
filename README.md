@@ -17,3 +17,4 @@
 ✅ Day 15 – Search Bar and Logic
 ✅ Day 16 – Draft Storage
 ✅ Day 17 – Theme Toggle
+✅ Day 18 – Community Testimonials
