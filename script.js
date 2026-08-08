@@ -1,10 +1,23 @@
+const themeToggle = document.getElementById("theme-toggle");
+const savedTheme = localStorage.getItem("synexus_theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light-theme");
+}
+themeToggle.addEventListener("click", function () {
+  document.body.classList.toggle("light-theme");
+  if (document.body.classList.contains("light-theme")) {
+    localStorage.setItem("synexus_theme", "light");
+    themeToggle.textContent = "🌙";
+  } else {
+    localStorage.setItem("synexus_theme", "dark");
+    themeToggle.textContent = "☀️";
+  }
+});
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const savedData = localStorage.getItem("synexus_form_draft");
-
 if (savedData) {
   const formData = JSON.parse(savedData);
-
   nameInput.value = formData.name;
   emailInput.value = formData.email;
 }
@@ -15,21 +28,15 @@ function saveDraft() {
     name: nameInput.value,
     email: emailInput.value,
   };
-
   const stringData = JSON.stringify(formData);
-
   localStorage.setItem("synexus_form_draft", stringData);
-
   clearTimeout(saveTimer);
-
   saveStatus.textContent = "✓ Draft Saved Automatically";
   saveStatus.classList.add("show");
-
   saveTimer = setTimeout(function () {
     saveStatus.classList.remove("show");
   }, 2000);
 }
-
 const heading = document.querySelector("#home h1");
 const button = document.querySelector("#home a");
 button.addEventListener("click", function () {
@@ -38,23 +45,18 @@ button.addEventListener("click", function () {
 });
 const menuButton = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
-
 menuButton.addEventListener("click", () => {
   navLinks.classList.toggle("nav-active");
 });
 const form = document.querySelector("#contact-form");
-
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-
   const nameValue = document.getElementById("name").value.trim();
   const emailValue = document.getElementById("email").value.trim();
   const messageValue = document.getElementById("message").value.trim();
-
   document.getElementById("name").style.borderColor = "";
   document.getElementById("email").style.borderColor = "";
   document.getElementById("message").style.borderColor = "";
-
   if (nameValue === "") {
     document.getElementById("name").style.borderColor = "red";
     alert("Please enter your name.");
@@ -96,7 +98,6 @@ const projectsData = [
   },
 ];
 const dynamicGrid = document.getElementById("dynamic-grid");
-
 function renderProjects(dataArray) {
   dynamicGrid.innerHTML = "";
   if (dataArray.length === 0) {
