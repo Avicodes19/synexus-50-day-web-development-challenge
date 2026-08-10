@@ -896,3 +896,124 @@ footer hr {
   background: var(--primary-dark);
   transform: translateY(-2px);
 }
+#task-tracker {
+  padding: 100px 8%;
+  background: var(--section-bg);
+}
+#task-tracker h2 {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 40px;
+}
+.task-input-area {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  display: flex;
+  gap: 15px;
+}
+#task-input {
+  flex: 1;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+}
+#task-input::placeholder {
+  color: var(--secondary-text);
+}
+#task-input:focus {
+  border-color: var(--primary-color);
+}
+#add-task-btn {
+  padding: 16px 25px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+#add-task-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+#task-list {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+#task-list li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 20px;
+  margin-bottom: 15px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  transition: 0.3s ease;
+}
+#task-list li:hover {
+  transform: translateY(-2px);
+}
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+#task-list li span {
+  flex: 1;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+#task-list li.completed span {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.delete-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--secondary-text);
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.delete-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+.light-theme #task-list li {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+.light-theme #task-input {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 600px) {
+  #task-tracker {
+    padding: 60px 20px;
+  }
+  #task-tracker h2 {
+    font-size: 32px;
+  }
+  .task-input-area {
+    flex-direction: column;
+  }
+  #add-task-btn {
+    width: 100%;
+  }
+  #task-list li {
+    padding: 15px;
+  }
+}

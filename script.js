@@ -273,3 +273,83 @@ prevButton.addEventListener("click", function () {
 
   testimonialTimer = setInterval(updateTestimonial, 3000);
 });
+let taskState = [];
+
+const taskInput = document.getElementById("task-input");
+const addTaskBtn = document.getElementById("add-task-btn");
+const taskList = document.getElementById("task-list");
+
+addTaskBtn.addEventListener("click", function () {
+  const taskText = taskInput.value.trim();
+
+  if (taskText === "") {
+    return;
+  }
+
+  const newTask = {
+    id: Date.now(),
+    text: taskText,
+    completed: false,
+  };
+
+  taskState.push(newTask);
+
+  taskInput.value = "";
+
+  renderTasks();
+});
+
+function renderTasks() {
+  taskList.innerHTML = "";
+
+  taskState.forEach(function (task) {
+    const li = `
+      <li class="${task.completed ? "completed" : ""}">
+
+        <input
+          type="checkbox"
+          class="task-checkbox"
+          data-id="${task.id}"
+          ${task.completed ? "checked" : ""}
+        >
+
+        <span>${task.text}</span>
+
+        <button
+          class="delete-btn"
+          data-id="${task.id}">
+          &times;
+        </button>
+
+      </li>
+    `;
+
+    taskList.innerHTML += li;
+  });
+}
+taskList.addEventListener("click", function (e) {
+  if (e.target.classList.contains("task-checkbox")) {
+    const targetId = Number(e.target.getAttribute("data-id"));
+
+    const task = taskState.find(function (task) {
+      return task.id === targetId;
+    });
+
+    if (task) {
+      task.completed = !task.completed;
+    }
+
+    renderTasks();
+  }
+
+  if (e.target.classList.contains("delete-btn")) {
+    const targetId = Number(e.target.getAttribute("data-id"));
+
+    taskState = taskState.filter(function (task) {
+      return task.id !== targetId;
+    });
+
+    renderTasks();
+  }
+});
+renderTasks();
