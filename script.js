@@ -111,17 +111,14 @@ function renderProjects(dataArray) {
       project.status === "Active" ? "active-project" : "completed-project";
 
     const card = `
-    <div class="initiative-card ${borderClass}">
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <p>${project.status}</p>
-
-        <button 
-            class="view-btn" 
-            data-title="${project.title}">
-            View Details
-        </button>
-    </div>
+  <div class="initiative-card ${borderClass} hidden">
+    <h3>${project.title}</h3>
+    <p>${project.description}</p>
+    <p>${project.status}</p>
+    <button class="view-btn" data-title="${project.title}">
+      View Details
+    </button>
+  </div>
 `;
 
     dynamicGrid.innerHTML += card;
@@ -154,6 +151,18 @@ function performSearch() {
 const debouncedSearch = debounce(performSearch, 300);
 
 searchInput.addEventListener("input", debouncedSearch);
+const observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+});
+const hiddenElements = document.querySelectorAll(".hidden");
+
+hiddenElements.forEach(function (element) {
+  observer.observe(element);
+});
 const projectModal = document.getElementById("project-modal");
 const modalClose = document.getElementById("modal-close");
 const modalTitle = document.getElementById("modal-title");

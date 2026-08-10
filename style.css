@@ -193,10 +193,6 @@ nav a:hover {
   color: var(--primary-color);
 }
 
-/* =========================
-   ABOUT
-========================= */
-
 #about {
   padding: 90px 8%;
   background: var(--section-bg);
@@ -250,10 +246,6 @@ nav a:hover {
   color: var(--secondary-text);
   line-height: 1.7;
 }
-
-/* =========================
-   INITIATIVES
-========================= */
 
 #initiatives {
   padding: 100px 8%;
@@ -599,10 +591,6 @@ footer hr {
   font-size: 15px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 900px) {
   .about-cards {
     grid-template-columns: repeat(2, 1fr);
@@ -618,23 +606,18 @@ footer hr {
 }
 
 @media (max-width: 600px) {
-  /* Header */
-
   header {
     padding: 15px 20px;
   }
-
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
   }
-
   .menu-toggle {
     display: block;
   }
-
   .nav-links {
     display: none;
     width: 100%;
@@ -643,72 +626,48 @@ footer hr {
     margin-top: 20px;
     text-align: center;
   }
-
   .nav-links.nav-active {
     display: flex;
   }
-
-  /* Hero */
-
   #home {
     flex-direction: column;
     text-align: center;
     padding: 60px 20px;
     gap: 40px;
   }
-
   .hero-left,
   .hero-right {
     width: 100%;
   }
-
   .hero-right {
     font-size: 18px;
   }
-
-  /* About */
-
   #about,
   #initiatives,
   #team,
   #contact {
     padding: 60px 20px;
   }
-
   .container {
     width: 100%;
     padding: 0 20px;
   }
-
   .about-cards {
     grid-template-columns: 1fr;
   }
-
-  /* Initiatives */
-
   .initiatives-grid {
     grid-template-columns: 1fr;
   }
-
-  /* Team */
-
   .team-grid {
     grid-template-columns: 1fr;
   }
-
-  /* Footer */
-
   footer {
     padding: 60px 20px 30px;
   }
-
   .footer-links {
     flex-direction: column;
     gap: 15px;
   }
-
-  /* Headings */
-
   #about h2,
   #team h2,
   #initiatives h2,
@@ -1016,4 +975,14 @@ footer hr {
   #task-list li {
     padding: 15px;
   }
+}
+.hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
 }
