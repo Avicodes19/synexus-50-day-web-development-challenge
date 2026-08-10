@@ -111,12 +111,18 @@ function renderProjects(dataArray) {
       project.status === "Active" ? "active-project" : "completed-project";
 
     const card = `
-            <div class="initiative-card ${borderClass}">
-                <h3>${project.title}</h3>
-                <p>${project.description}</p>
-                <p>${project.status}</p>
-            </div>
-        `;
+    <div class="initiative-card ${borderClass}">
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <p>${project.status}</p>
+
+        <button 
+            class="view-btn" 
+            data-title="${project.title}">
+            View Details
+        </button>
+    </div>
+`;
 
     dynamicGrid.innerHTML += card;
   });
@@ -132,6 +138,36 @@ searchInput.addEventListener("input", function () {
   });
 
   renderProjects(filteredProjects);
+});
+const projectModal = document.getElementById("project-modal");
+const modalClose = document.getElementById("modal-close");
+const modalTitle = document.getElementById("modal-title");
+const modalDescription = document.getElementById("modal-description");
+
+dynamicGrid.addEventListener("click", function (e) {
+  if (e.target.classList.contains("view-btn")) {
+    const projectTitle = e.target.getAttribute("data-title");
+
+    modalTitle.textContent = projectTitle;
+
+    modalDescription.textContent =
+      "More information about " + projectTitle + " will be available here.";
+
+    projectModal.style.display = "flex";
+  }
+});
+modalClose.addEventListener("click", function () {
+  projectModal.style.display = "none";
+});
+projectModal.addEventListener("click", function (e) {
+  if (e.target === projectModal) {
+    projectModal.style.display = "none";
+  }
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    projectModal.style.display = "none";
+  }
 });
 const saveStatus = document.getElementById("save-status");
 
