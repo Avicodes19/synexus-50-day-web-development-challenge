@@ -128,9 +128,20 @@ function renderProjects(dataArray) {
   });
 }
 renderProjects(projectsData);
+function debounce(func, delay) {
+  let timeout;
+
+  return function (...args) {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
 const searchInput = document.getElementById("search-projects");
 
-searchInput.addEventListener("input", function () {
+function performSearch() {
   const searchTerm = searchInput.value.toLowerCase();
 
   const filteredProjects = projectsData.filter(function (project) {
@@ -138,7 +149,11 @@ searchInput.addEventListener("input", function () {
   });
 
   renderProjects(filteredProjects);
-});
+}
+
+const debouncedSearch = debounce(performSearch, 300);
+
+searchInput.addEventListener("input", debouncedSearch);
 const projectModal = document.getElementById("project-modal");
 const modalClose = document.getElementById("modal-close");
 const modalTitle = document.getElementById("modal-title");
