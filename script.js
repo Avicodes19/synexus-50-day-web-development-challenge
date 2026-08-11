@@ -377,3 +377,29 @@ taskList.addEventListener("click", function (e) {
   }
 });
 renderTasks();
+const taskCards = document.querySelectorAll(".task-card");
+const columns = document.querySelectorAll(".column");
+
+taskCards.forEach(function (card) {
+  card.addEventListener("dragstart", function () {
+    card.classList.add("is-dragging");
+  });
+
+  card.addEventListener("dragend", function () {
+    card.classList.remove("is-dragging");
+  });
+});
+
+columns.forEach(function (column) {
+  column.addEventListener("dragover", function (e) {
+    e.preventDefault();
+  });
+
+  column.addEventListener("drop", function () {
+    const draggedElement = document.querySelector(".is-dragging");
+
+    if (draggedElement) {
+      column.appendChild(draggedElement);
+    }
+  });
+});
