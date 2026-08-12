@@ -23,3 +23,4 @@
 ✅ Day 21 – Debouncing
 ✅ Day 22 – Animations for Cards
 ✅ Day 23 – Drag-And-Drop Task List
+✅ Day 24 – SPA Router

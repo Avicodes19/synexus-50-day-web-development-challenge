@@ -1,3 +1,242 @@
+const appRoot = document.getElementById("app-root");
+
+const views = {
+  "/": `
+    <section id="home">
+      <div class="hero-left">
+        <h1>
+          Think Big.<br />
+          Start Small.
+        </h1>
+
+        <a href="/about" class="nav-link">
+          Join Our Community
+        </a>
+      </div>
+
+      <div class="hero-right">
+        <p>Engineering students collaborating on a project</p>
+      </div>
+    </section>
+  `,
+
+  "/about": `
+    <section id="about">
+      <div class="container">
+        <h2>About Synexus Core</h2>
+
+        <p class="about-description">
+          A student-led tech community dedicated to innovation,
+          collaboration, and hands-on technical projects.
+        </p>
+
+        <div class="about-cards">
+          <div class="about-card">
+            <h3>Our Vision</h3>
+            <p>
+              Build a thriving engineering community that inspires
+              innovation and prepares students for the future.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3>Our Mission</h3>
+            <p>
+              Empower students with practical engineering skills
+              through projects, mentorship, and collaborative learning.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3>Our Values</h3>
+            <p>
+              Innovation, teamwork, curiosity, leadership, and
+              continuous learning are at the heart of everything we do.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `,
+
+  "/team": `
+    <section id="team">
+      <div class="container">
+        <h2>Meet Our Core Team</h2>
+
+        <p class="team-description">
+          The passionate individuals leading Synexus Core.
+        </p>
+
+        <div class="team-grid">
+          <div class="profile-card">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+              alt="Chief Executive Officer"
+            />
+            <h3>XYZ</h3>
+            <p class="role">Chief Executive Officer (CEO)</p>
+          </div>
+
+          <div class="profile-card">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+              alt="Chief Strategic Officer"
+            />
+            <h3>XYZ</h3>
+            <p class="role">Chief Strategic Officer (CSO)</p>
+          </div>
+
+          <div class="profile-card">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+              alt="Chief Technology Officer"
+            />
+            <h3>XYZ</h3>
+            <p class="role">Chief Technology Officer (CTO)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `,
+
+  "/initiatives": `
+    <section id="initiatives">
+      <div class="container">
+        <h2>Our Initiatives</h2>
+
+        <p class="initiatives-description">
+          We organize events and programs that encourage students
+          to learn, innovate, collaborate, and apply their engineering
+          knowledge to real-world challenges.
+        </p>
+      </div>
+    </section>
+  `,
+
+  "/testimonials": `
+    <section id="testimonials">
+      <div class="container">
+        <h2>What Our Members Say</h2>
+
+        <div class="testimonial-wrapper">
+          <button id="prev-testimonial" class="testimonial-arrow">
+            &#10094;
+          </button>
+
+          <div id="testimonial-container">
+            <div class="testimonial-content">
+              <p class="testimonial-quote">
+                Loading testimonial...
+              </p>
+
+              <div class="testimonial-author">
+                <h3>Member Name</h3>
+                <p>Role</p>
+              </div>
+            </div>
+
+            <div class="testimonial-image">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                alt="Community member"
+              />
+            </div>
+          </div>
+
+          <button id="next-testimonial" class="testimonial-arrow">
+            &#10095;
+          </button>
+        </div>
+      </div>
+    </section>
+  `,
+
+  "/contact": `
+    <section id="contact">
+      <div class="container">
+        <h2>Get in Touch</h2>
+
+        <p class="contact-description">
+          Have questions, ideas, or want to collaborate with
+          Synexus Core? We'd love to hear from you.
+        </p>
+
+        <form id="contact-form">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="John Doe"
+          />
+
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="john@example.com"
+          />
+
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            rows="6"
+            placeholder="Tell us how we can help..."
+          ></textarea>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  `,
+};
+
+async function router() {
+  const path = window.location.pathname;
+
+  if (views[path]) {
+    appRoot.innerHTML = views[path];
+  } else {
+    appRoot.innerHTML = `
+      <section class="not-found">
+        <div class="container">
+          <h1>404</h1>
+          <h2>Page Not Found</h2>
+
+          <p>
+            The page you're looking for doesn't exist.
+          </p>
+
+          <a href="/" class="nav-link">
+            Back to Home
+          </a>
+        </div>
+      </section>
+    `;
+  }
+}
+
+document.addEventListener("click", function (e) {
+  const link = e.target.closest(".nav-link");
+
+  if (!link) {
+    return;
+  }
+
+  e.preventDefault();
+
+  const href = link.getAttribute("href");
+
+  window.history.pushState({}, "", href);
+
+  router();
+});
+
+window.addEventListener("popstate", router);
+
+router();
+
+/*
 const themeToggle = document.getElementById("theme-toggle");
 const savedTheme = localStorage.getItem("synexus_theme");
 if (savedTheme === "light") {
@@ -188,11 +427,13 @@ projectModal.addEventListener("click", function (e) {
     projectModal.style.display = "none";
   }
 });
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") {
-    projectModal.style.display = "none";
-  }
-});
+("keydown",
+  function (e) {
+    if (e.key === "Escape") {
+      projectModal.style.display = "none";
+    }
+  });
+document.addEventListener;
 const saveStatus = document.getElementById("save-status");
 
 let saveTimer;
@@ -403,3 +644,4 @@ columns.forEach(function (column) {
     }
   });
 });
+*/
