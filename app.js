@@ -270,6 +270,33 @@ const views = {
         </form>
       </div>
     </section>
+`,
+  "/github": `
+    <section id="github-lookup">
+  <div class="container">
+
+    <h2>Find a Developer</h2>
+
+    <p>
+      Search for a GitHub developer and view their public profile.
+    </p>
+
+    <div class="github-search">
+      <input
+        type="text"
+        id="github-username"
+        placeholder="Enter GitHub username"
+      />
+
+      <button id="search-dev-btn">
+        Lookup
+      </button>
+    </div>
+
+    <div id="dev-profile-card"></div>
+
+  </div>
+</section>
   `,
 };
 
@@ -483,9 +510,7 @@ async function router() {
     appRoot.innerHTML = `
       <section class="not-found">
         <div class="container">
-
           <h1>404</h1>
-
           <h2>Page Not Found</h2>
 
           <p>
@@ -495,13 +520,17 @@ async function router() {
           <a href="/" class="nav-link">
             Back to Home
           </a>
-
         </div>
       </section>
     `;
+
+    return;
   }
 
-  /* Route-specific initialization */
+  // Initialize features AFTER their HTML has been injected
+  if (path === "/github") {
+    initGithubLookup();
+  }
 
   if (path === "/initiatives") {
     initInitiatives();
@@ -543,3 +572,95 @@ function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+function initGithubLookup() {
+  const usernameInput = document.getElementById("github-username");
+  const searchButton = document.getElementById("search-dev-btn");
+  const profileCard = document.getElementById("dev-profile-card");
+
+  if (!usernameInput || !searchButton || !profileCard) {
+    return;
+  }
+
+  async function getDeveloperProfile(username) {
+    profileCard.innerHTML = `
+      <p class="github-loading">Fetching developer data...</p>
+    `;
+
+    try {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+
+      if (!response.ok) {
+        throw new Error("GitHub user not found.");
+      }
+
+      const data = await response.json();
+
+      profileCard.innerHTML = `
+     <div class="github-profile-card">
+
+        <img
+        src="${data.avatar_url}"
+        alt="${data.name || data.login}"
+        class="github-avatar"
+        />
+
+        <div class="github-profile-info">
+
+      <h3>${data.name || data.login}</h3>
+
+      <p class="github-username">@${data.login}</p>
+
+      <div class="github-stats">
+
+        <span>
+          <strong>${data.public_repos}</strong>
+          <small>Repositories</small>
+        </span>
+
+        <span>
+          <strong>${data.followers}</strong>
+          <small>Followers</small>
+        </span>
+
+        <span>
+          <strong>${data.following}</strong>
+          <small>Following</small>
+        </span>
+
+      </div>
+
+      <a
+        href="${data.html_url}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="github-profile-btn"
+      >
+        View Profile on GitHub →
+      </a>
+
+    </div>
+
+  </div>
+`;
+    } catch (error) {
+      profileCard.innerHTML = `
+        <p class="github-error">
+          ${error.message}
+        </p>
+      `;
+    }
+  }
+
+  searchButton.addEventListener("click", function () {
+    const username = usernameInput.value.trim();
+
+    if (username === "") {
+      profileCard.innerHTML = `
+        <p>Please enter a GitHub username.</p>
+      `;
+      return;
+    }
+
+    getDeveloperProfile(username);
+  });
+}
