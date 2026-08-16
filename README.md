@@ -27,3 +27,4 @@
 ✅ Day 25 – Phase II Complete.
 ✅ Day 26 – Fetch GitHub Profile
 ✅ Day 27 – Fetch GitHub Public Repositories
+✅ Day 28 – Fetch GitHub Public Profile & Repositories In Realtime
