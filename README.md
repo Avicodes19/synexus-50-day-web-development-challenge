@@ -26,3 +26,4 @@
 ✅ Day 24 – SPA Router
 ✅ Day 25 – Phase II Complete.
 ✅ Day 26 – Fetch GitHub Profile
+✅ Day 27 – Fetch GitHub Public Repositories

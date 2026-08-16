@@ -294,6 +294,8 @@ const views = {
     </div>
 
     <div id="dev-profile-card"></div>
+    <h2>Recent Repositories</h2>
+    <div id="repos-grid" class="initiatives-grid"></div>
 
   </div>
 </section>
@@ -587,7 +589,9 @@ function initGithubLookup() {
     `;
 
     try {
-      const response = await fetch(`https://api.github.com/users/${username}`);
+      const response = await fetch(
+        `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`,
+      );
 
       if (!response.ok) {
         throw new Error("GitHub user not found.");
@@ -596,52 +600,10 @@ function initGithubLookup() {
       const data = await response.json();
 
       profileCard.innerHTML = `
-     <div class="github-profile-card">
+      <!-- your profile card -->
+      `;
 
-        <img
-        src="${data.avatar_url}"
-        alt="${data.name || data.login}"
-        class="github-avatar"
-        />
-
-        <div class="github-profile-info">
-
-      <h3>${data.name || data.login}</h3>
-
-      <p class="github-username">@${data.login}</p>
-
-      <div class="github-stats">
-
-        <span>
-          <strong>${data.public_repos}</strong>
-          <small>Repositories</small>
-        </span>
-
-        <span>
-          <strong>${data.followers}</strong>
-          <small>Followers</small>
-        </span>
-
-        <span>
-          <strong>${data.following}</strong>
-          <small>Following</small>
-        </span>
-
-      </div>
-
-      <a
-        href="${data.html_url}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="github-profile-btn"
-      >
-        View Profile on GitHub →
-      </a>
-
-    </div>
-
-  </div>
-`;
+      await fetchRepositories(username);
     } catch (error) {
       profileCard.innerHTML = `
         <p class="github-error">
@@ -650,7 +612,59 @@ function initGithubLookup() {
       `;
     }
   }
+  async function fetchRepositories(username) {
+    const reposGrid = document.getElementById("repos-grid");
 
+    if (!reposGrid) return;
+
+    try {
+      const response = await fetch(
+        `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Could not fetch repositories.");
+      }
+
+      const data = await response.json();
+
+      reposGrid.innerHTML = "";
+
+      if (data.length === 0) {
+        reposGrid.innerHTML = `
+        <p>No public repositories found.</p>
+      `;
+        return;
+      }
+
+      data.forEach(function (repo) {
+        reposGrid.innerHTML += `
+        <div class="initiative-card">
+          <h3>${repo.name}</h3>
+
+          <p>
+            ${repo.description || "No description provided."}
+          </p>
+
+          <a
+            href="${repo.html_url}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="github-profile-btn"
+          >
+            View Repository →
+          </a>
+        </div>
+      `;
+      });
+    } catch (error) {
+      reposGrid.innerHTML = `
+      <p class="github-error">
+        ${error.message}
+      </p>
+    `;
+    }
+  }
   searchButton.addEventListener("click", function () {
     const username = usernameInput.value.trim();
 
