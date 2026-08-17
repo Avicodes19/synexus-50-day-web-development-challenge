@@ -173,6 +173,42 @@ const views = {
         ></div>
       </div>
     </section>
+    <section id="proposal">
+  <div class="container">
+
+    <h2>Propose an Initiative</h2>
+
+    <form id="proposal-form">
+
+      <label for="proposal-title">
+        Initiative Title
+      </label>
+
+      <input
+        type="text"
+        id="proposal-title"
+        placeholder="Enter initiative title"
+        required
+      />
+
+      <label for="proposal-description">
+        Description
+      </label>
+
+      <textarea
+        id="proposal-description"
+        rows="6"
+        placeholder="Describe your initiative..."
+        required
+      ></textarea>
+
+      <button type="submit" id="proposal-submit">
+        Submit Proposal
+      </button>
+    </form>
+    <div id="proposal-message"></div>
+  </div>
+</section>
   `,
 
   "/testimonials": `
@@ -468,7 +504,69 @@ function initContactForm() {
     form.reset();
   });
 }
+function initProposalForm() {
+  const form = document.getElementById("proposal-form");
+  const titleInput = document.getElementById("proposal-title");
+  const descriptionInput = document.getElementById("proposal-description");
+  const submitButton = document.getElementById("proposal-submit");
+  const message = document.getElementById("proposal-message");
 
+  if (!form || !titleInput || !descriptionInput || !submitButton || !message) {
+    return;
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const titleValue = titleInput.value.trim();
+    const descriptionValue = descriptionInput.value.trim();
+
+    const newInitiative = {
+      title: titleValue,
+      body: descriptionValue,
+      userId: 1,
+    };
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
+
+    message.textContent = "";
+
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+
+          body: JSON.stringify(newInitiative),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        message.textContent = "✓ Initiative submitted successfully!";
+
+        form.reset();
+
+        console.log("Created initiative:", data);
+      } else {
+        throw new Error("Failed to submit initiative.");
+      }
+    } catch (error) {
+      message.textContent = "Something went wrong. Please try again.";
+
+      console.error(error);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit Proposal";
+    }
+  });
+}
 function initScrollObserver() {
   const hiddenElements = document.querySelectorAll(".hidden");
 
@@ -520,6 +618,7 @@ async function router() {
 
   if (path === "/initiatives") {
     initInitiatives();
+    initProposalForm();
   }
 
   if (path === "/testimonials") {

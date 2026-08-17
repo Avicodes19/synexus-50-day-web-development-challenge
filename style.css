@@ -298,6 +298,68 @@ nav a:hover {
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
 }
 
+/* =========================
+   PROPOSE AN INITIATIVE
+========================= */
+
+#proposal-form {
+  max-width: 700px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#proposal-form input,
+#proposal-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+
+#proposal-form input:focus,
+#proposal-form textarea:focus {
+  border-color: var(--primary-light);
+}
+
+#proposal-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+#proposal-submit {
+  align-self: flex-start;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: var(--text-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+#proposal-submit:hover {
+  opacity: 0.85;
+}
+
+#proposal-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#proposal-message {
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: center;
+  font-weight: 600;
+}
 /* Initiative cards */
 
 .initiatives-grid {
