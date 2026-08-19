@@ -207,7 +207,24 @@ const views = {
       </button>
     </form>
     <div id="proposal-message"></div>
-  </div>
+    </div>
+    <section id="manage-proposal">
+    <div class="container">
+
+    <h2>Manage Proposal</h2>
+
+    <div class="proposal-actions">
+      <button id="update-btn">
+        Update Proposal
+      </button>
+
+      <button id="delete-btn" class="btn-danger">
+        Delete Proposal
+      </button>
+    </div>
+
+     </div>
+  </section>
 </section>
   `,
 
@@ -567,6 +584,71 @@ function initProposalForm() {
     }
   });
 }
+function initManageProposal() {
+  const updateButton = document.getElementById("update-btn");
+  const deleteButton = document.getElementById("delete-btn");
+
+  if (!updateButton || !deleteButton) {
+    return;
+  }
+
+  async function updateInitiative(id) {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts/" + id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            id: id,
+            title: "Updated Initiative [UPDATED]",
+            body: "This initiative has been updated.",
+            userId: 1,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      console.log("Updated initiative:", data);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  }
+
+  async function deleteInitiative(id) {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts/" + id,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (response.ok) {
+        console.log("Initiative deleted successfully.");
+      }
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  }
+
+  updateButton.addEventListener("click", function () {
+    updateInitiative(1);
+  });
+
+  deleteButton.addEventListener("click", function () {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this initiative? This action cannot be undone.",
+    );
+
+    if (confirmed) {
+      deleteInitiative(1);
+    }
+  });
+}
 function initScrollObserver() {
   const hiddenElements = document.querySelectorAll(".hidden");
 
@@ -619,6 +701,7 @@ async function router() {
   if (path === "/initiatives") {
     initInitiatives();
     initProposalForm();
+    initManageProposal();
   }
 
   if (path === "/testimonials") {

@@ -29,3 +29,4 @@
 ✅ Day 27 – Fetch GitHub Public Repositories
 ✅ Day 28 – Fetch GitHub Public Profile & Repositories In Realtime
 ✅ Day 29 – Initiatives Proposal Form
+✅ Day 30 – Update and Delete Buttons
