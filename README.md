@@ -30,3 +30,4 @@
 ✅ Day 28 – Fetch GitHub Public Profile & Repositories In Realtime
 ✅ Day 29 – Initiatives Proposal Form
 ✅ Day 30 – Update and Delete Buttons
+✅ Day 31 – Infinite Scroll

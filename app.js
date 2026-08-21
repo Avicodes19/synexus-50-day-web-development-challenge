@@ -349,6 +349,19 @@ const views = {
   </div>
 </section>
   `,
+  "/feed": `
+  <section id="data-feed-section">
+    <div class="container">
+      <h2>Community Feed</h2>
+
+      <div id="data-feed"></div>
+
+      <div id="scroll-sentinel" class="loading-spinner">
+        Loading more...
+      </div>
+    </div>
+  </section>
+`,
 };
 
 function initThemeToggle() {
@@ -692,8 +705,6 @@ async function router() {
 
     return;
   }
-
-  // Initialize features AFTER their HTML has been injected
   if (path === "/github") {
     initGithubLookup();
   }
@@ -713,6 +724,10 @@ async function router() {
   }
 
   initScrollObserver();
+
+  if (path === "/feed") {
+    initInfiniteScroll();
+  }
 }
 
 document.addEventListener("click", function (e) {
@@ -819,11 +834,7 @@ function initGithubLookup() {
     }
   }
 
-  // -----------------------------
-  // FETCH DEVELOPER PROFILE
-  // -----------------------------
   async function getDeveloperProfile(username) {
-    // Empty input
     if (username === "") {
       profileCard.innerHTML = "";
       reposGrid.innerHTML = "";
@@ -850,10 +861,6 @@ function initGithubLookup() {
       }
 
       const data = await response.json();
-
-      // -----------------------------
-      // RENDER PROFILE
-      // -----------------------------
       profileCard.innerHTML = `
         <div class="github-profile-card">
 
@@ -926,4 +933,70 @@ function initGithubLookup() {
     debouncedSearch(usernameInput.value.trim());
   });
 }
-getDeveloperProfile(username);
+let currentPage = 1;
+const limit = 10;
+let isLoading = false;
+
+function initInfiniteScroll() {
+  const dataFeed = document.getElementById("data-feed");
+  const sentinel = document.getElementById("scroll-sentinel");
+
+  if (!dataFeed || !sentinel) return;
+
+  currentPage = 1;
+  isLoading = false;
+
+  async function fetchNextPage() {
+    if (isLoading) return;
+
+    isLoading = true;
+
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${limit}`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts.");
+      }
+
+      const data = await response.json();
+
+      if (data.length === 0) {
+        sentinel.textContent = "You've reached the end!";
+        observer.disconnect();
+        return;
+      }
+
+      data.forEach(function (post) {
+        dataFeed.innerHTML += `
+          <div class="feed-card">
+            <h3>${post.title}</h3>
+            <p>${post.body}</p>
+          </div>
+        `;
+      });
+
+      // Move to the next page AFTER successfully loading this one
+      currentPage++;
+    } catch (error) {
+      sentinel.textContent = "Failed to load more posts.";
+      console.error(error);
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        fetchNextPage();
+      }
+    });
+  });
+
+  observer.observe(sentinel);
+
+  // Load page 1 immediately
+  fetchNextPage();
+}
