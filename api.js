@@ -1,3 +1,4 @@
+import { fetchWithRetry } from "./utils.js";
 const userCache = new Map();
 export async function fetchContributor(username) {
   if (userCache.has(username)) {
@@ -76,7 +77,7 @@ export async function deleteInitiative(id) {
   return true;
 }
 export async function fetchFeed(page, limit) {
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${limit}`,
   );
 
