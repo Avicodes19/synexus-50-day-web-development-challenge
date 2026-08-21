@@ -32,3 +32,4 @@
 ✅ Day 30 – Update and Delete Buttons
 ✅ Day 31 – Infinite Scroll
 ✅ Day 32 – Modularization
+✅ Day 33 – Fetch Data from Cache
