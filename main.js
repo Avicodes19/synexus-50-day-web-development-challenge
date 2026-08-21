@@ -1,3 +1,12 @@
+import { debounce } from "./utils.js";
+
+import {
+  fetchContributor,
+  fetchRepositories,
+  updateInitiative,
+  deleteInitiative,
+  fetchFeed,
+} from "./api.js";
 const appRoot = document.getElementById("app-root");
 
 const projectsData = [
@@ -363,7 +372,6 @@ const views = {
   </section>
 `,
 };
-
 function initThemeToggle() {
   const themeToggle = document.getElementById("theme-toggle");
 
@@ -605,81 +613,34 @@ function initManageProposal() {
     return;
   }
 
-  async function updateInitiative(id) {
+  updateButton.addEventListener("click", async function () {
     try {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts/" + id,
-        {
-          method: "PUT",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify({
-            id: id,
-            title: "Updated Initiative [UPDATED]",
-            body: "This initiative has been updated.",
-            userId: 1,
-          }),
-        },
-      );
-
-      const data = await response.json();
+      const data = await updateInitiative(1);
 
       console.log("Updated initiative:", data);
     } catch (error) {
       console.error("Update failed:", error);
     }
-  }
+  });
 
-  async function deleteInitiative(id) {
+  deleteButton.addEventListener("click", async function () {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this initiative? This action cannot be undone.",
+    );
+
+    if (!confirmed) return;
+
     try {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts/" + id,
-        {
-          method: "DELETE",
-        },
-      );
+      const success = await deleteInitiative(1);
 
-      if (response.ok) {
+      if (success) {
         console.log("Initiative deleted successfully.");
       }
     } catch (error) {
       console.error("Delete failed:", error);
     }
-  }
-
-  updateButton.addEventListener("click", function () {
-    updateInitiative(1);
-  });
-
-  deleteButton.addEventListener("click", function () {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this initiative? This action cannot be undone.",
-    );
-
-    if (confirmed) {
-      deleteInitiative(1);
-    }
   });
 }
-function initScrollObserver() {
-  const hiddenElements = document.querySelectorAll(".hidden");
-
-  if (hiddenElements.length === 0) return;
-
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-      }
-    });
-  });
-
-  hiddenElements.forEach(function (element) {
-    observer.observe(element);
-  });
-}
-
 async function router() {
   const path = window.location.pathname;
 
@@ -723,13 +684,10 @@ async function router() {
     initContactForm();
   }
 
-  initScrollObserver();
-
   if (path === "/feed") {
     initInfiniteScroll();
   }
 }
-
 document.addEventListener("click", function (e) {
   const link = e.target.closest(".nav-link");
 
@@ -745,7 +703,6 @@ document.addEventListener("click", function (e) {
 
   router();
 });
-
 window.addEventListener("popstate", router);
 
 function initApp() {
@@ -755,17 +712,6 @@ function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
-function debounce(func, delay) {
-  let timeout;
-
-  return function (...args) {
-    clearTimeout(timeout);
-
-    timeout = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-}
 function initGithubLookup() {
   const usernameInput = document.getElementById("github-username");
   const profileCard = document.getElementById("dev-profile-card");
@@ -944,20 +890,16 @@ function initInfiniteScroll() {
   isLoading = false;
 
   async function fetchNextPage() {
+    console.log("fetchNextPage is running");
+
+    if (isLoading) return;
+
     if (isLoading) return;
 
     isLoading = true;
 
     try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=${limit}`,
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts.");
-      }
-
-      const data = await response.json();
+      const data = await fetchFeed(currentPage, limit);
 
       if (data.length === 0) {
         sentinel.textContent = "You've reached the end!";
