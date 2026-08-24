@@ -1,4 +1,30 @@
-import { fetchWithRetry } from "./utils.js";
+import { fetchWithRetry, getAuthHeaders } from "./utils.js";
+export async function secureDeleteResource(targetId) {
+  const token = localStorage.getItem("auth_token");
+
+  if (!token) {
+    throw new Error("Access Denied: No authentication token found.");
+  }
+
+  const response = await fetchWithRetry(
+    `https://jsonplaceholder.typicode.com/posts/${targetId}`,
+    {
+      method: "DELETE",
+      headers: {
+        ...getAuthHeaders(),
+      },
+    },
+  );
+  if (response.status === 401) {
+    throw new Error("Unauthorized: Session expired");
+  }
+
+  if (!response.ok) {
+    throw new Error("Failed to delete resource.");
+  }
+
+  return true;
+}
 const userCache = new Map();
 export async function fetchContributor(username) {
   if (userCache.has(username)) {

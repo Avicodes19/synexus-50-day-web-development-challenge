@@ -35,3 +35,14 @@ export async function fetchWithRetry(
     }
   }
 }
+export function getAuthHeaders() {
+  const token = localStorage.getItem("auth_token");
+
+  if (!token) {
+    throw new Error("Access Denied: No authentication token found.");
+  }
+
+  return {
+    Authorization: "Bearer " + token,
+  };
+}

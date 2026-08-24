@@ -34,3 +34,4 @@
 ✅ Day 32 – Modularization
 ✅ Day 33 – Fetch Data from Cache
 ✅ Day 34 – Resilient Networks
+✅ Day 35 – Local Storage
