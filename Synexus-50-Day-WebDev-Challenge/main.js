@@ -11,6 +11,8 @@ import {
 
 import { sendLiveMessage } from "./websocket.js";
 
+import { saveOfflineData } from "./db.js";
+
 const appRoot = document.getElementById("app-root");
 
 const projectsData = [
@@ -592,6 +594,11 @@ function initProposalForm() {
     message.textContent = "";
 
     try {
+      if (!navigator.onLine) {
+        await saveOfflineData(newInitiative);
+        alert("You are offline. Your proposal has been saved locally.");
+        return;
+      }
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/posts",
         {

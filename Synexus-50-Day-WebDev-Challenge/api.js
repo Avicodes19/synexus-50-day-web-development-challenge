@@ -1,4 +1,5 @@
 import { fetchWithRetry, getAuthHeaders } from "./utils.js";
+
 export async function secureDeleteResource(targetId) {
   const token = localStorage.getItem("auth_token");
 
@@ -65,6 +66,11 @@ export async function fetchRepositories(username) {
 }
 
 export async function updateInitiative(id) {
+  if (!navigator.onLine) {
+    await saveOfflineData(payload);
+    alert("You are offline. Your proposal has been saved locally.");
+    return;
+  }
   const response = await fetch(
     "https://jsonplaceholder.typicode.com/posts/" + id,
     {
