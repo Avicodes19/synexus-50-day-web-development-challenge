@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Engineering Community</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="main.js"></script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link"> Skip to main content </a>
+      <header>
+        <nav>
+          <div class="logo">
+            <a href="/" class="nav-link">Synexus Core</a>
+          </div>
+
+          <ul class="nav-links">
+            <li>
+              <a href="/" class="nav-link">Home</a>
+            </li>
+
+            <li>
+              <a href="/about" class="nav-link">About</a>
+            </li>
+
+            <li>
+              <a href="/team" class="nav-link">Team</a>
+            </li>
+
+            <li>
+              <a href="/initiatives" class="nav-link">Initiatives</a>
+            </li>
+
+            <li>
+              <a href="/testimonials" class="nav-link">Testimonials</a>
+            </li>
+
+            <li>
+              <a href="/contact" class="nav-link">Contact</a>
+            </li>
+            <li>
+            <a href="/github" class="nav-link">GitHub</a>
+            </li>
+            <li>
+            <a href="/feed" class="nav-link">Feed</a>
+            </li>
+            <li>
+            <a href="/live" class="nav-link">Live</a>
+            </li>
+          </ul>
+
+          <button id="theme-toggle" aria-label="Toggle theme">☀️</button>
+
+          <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
+        </nav>
+      </header>
+      <!--
+      <main id="main-content">
+      <section id="home">
+        <div class="hero-left">
+          <h1>
+            Think Big.<br />
+            Start Small.
+          </h1>
+          <a href="#about">Join Our Community</a>
+        </div>
+
+        <div class="hero-right">
+          <p>Engineering students collaborating on a project</p>
+        </div>
+      </section>
+      <section id="about">
+        <div class="container">
+          <h2>About Synexus Core</h2>
+
+          <p class="about-description">
+            A student-led tech community dedicated to innovation, collaboration,
+            and hands-on technical projects.
+          </p>
+
+          <div class="about-cards">
+            <div class="about-card hidden">
+              <h3>Our Vision</h3>
+              <p>
+                Build a thriving engineering community that inspires innovation
+                and prepares students for the future.
+              </p>
+            </div>
+
+            <div class="about-card hidden">
+              <h3>Our Mission</h3>
+              <p>
+                Empower students with practical engineering skills through
+                projects, mentorship, and collaborative learning.
+              </p>
+            </div>
+
+            <div class="about-card hidden">
+              <h3>Our Values</h3>
+              <p>
+                Innovation, teamwork, curiosity, leadership, and continuous
+                learning are at the heart of everything we do.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="initiatives">
+        <div class="container">
+          <h2>Our Initiatives</h2>
+          <p class="initiatives-description">
+            We organize events and programs that encourage students to learn,
+            innovate, collaborate, and apply their engineering knowledge to
+            real-world challenges.
+          </p>
+          <input
+            type="text"
+            id="search-projects"
+            placeholder="Search initiatives..."
+          />
+          <div class="initiatives-grid" id="dynamic-grid"></div>
+        </div>
+      </section>
+      <section id="team">
+        <div class="container">
+          <h2>Meet Our Core Team</h2>
+          <p class="team-description hidden">
+            The passionate individuals leading Synexus Core, driving innovation,
+            fostering collaboration, and building opportunities for engineering
+            students to grow together.
+          </p>
+          <div class="team-grid">
+            <div class="profile-card hidden">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                alt="Chief Executive Officer"
+              />
+              <h3>XYZ</h3>
+              <p class="role">Chief Executive Officer (CEO)</p>
+              <a href="#">View Profile</a>
+            </div>
+            <div class="profile-card hidden">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                alt="Chief Strategic Officer"
+              />
+              <h3>XYZ</h3>
+              <p class="role">Chief Stratgic Officer (CSO)</p>
+              <a href="#">View Profile</a>
+            </div>
+            <div class="profile-card hidden">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                alt="Chief Technology Officer"
+              />
+              <h3>XYZ</h3>
+              <p class="role">Chief Technology Officer (CTO)</p>
+              <a href="#">View Profile</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="testimonials">
+        <div class="container">
+          <h2>What Our Members Say</h2>
+
+          <div class="testimonial-wrapper">
+            <button id="prev-testimonial" class="testimonial-arrow">
+              &#10094;
+            </button>
+            <div id="testimonial-container">
+              <div class="testimonial-content">
+                <p class="testimonial-quote" id="testimonial-quote">
+                  Loading testimonial...
+                </p>
+
+                <div class="testimonial-author">
+                  <h3 id="testimonial-name">Member Name</h3>
+                  <p id="testimonial-role">Role</p>
+                </div>
+              </div>
+
+              <div class="testimonial-image">
+                <img
+                  id="testimonial-image"
+                  src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                  alt="Community member"
+                />
+              </div>
+            </div>
+
+            <button id="next-testimonial" class="testimonial-arrow">
+              &#10095;
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="task-tracker">
+        <div class="container">
+          <h2>Community Task Tracker</h2>
+
+          <div class="task-input-area">
+            <input type="text" id="task-input" placeholder="Enter a task..." />
+
+            <button id="add-task-btn">Add Task</button>
+          </div>
+
+          <ul id="task-list"></ul>
+        </div>
+      </section>
+      <section id="kanban-board">
+        <div class="container">
+          <h2>Project Board</h2>
+          <div class="board">
+          <div class="column" id="todo">
+           <h3>To Do</h3>
+
+        <div class="task-card" draggable="true">
+          Build homepage
+        </div>
+
+        <div class="task-card" draggable="true">
+          Design contact form
+        </div>
+
+        <div class="task-card" draggable="true">
+          Add responsive navigation
+        </div>
+        </div>
+        <div class="column" id="in-progress">
+          <h3>In Progress</h3>
+        </div>
+        <div class="column" id="done">
+          <h3>Done</h3>
+        </div>
+
+        </div>
+        </div>
+      </section>
+      <section id="contact">
+        <div class="container">
+          <h2>Get in Touch</h2>
+          <p class="contact-description">
+            Have questions, ideas, or want to collaborate with Synexus Core?
+            We'd love to hear from you. Fill out the form below and we'll get
+            back to you as soon as possible.
+          </p>
+          <form id="contact-form">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="John Doe"
+              required
+            />
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="john@example.com"
+              required
+            />
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              placeholder="Tell us how we can help..."
+              required
+            ></textarea>
+            <p id="save-status"></p>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <div id="project-modal" class="modal-overlay">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close" aria-label="Close">
+          &times;
+        </button>
+
+        <h2 id="modal-title">Project Details</h2>
+
+        <p id="modal-description">Project information will appear here.</p>
+      </div>
+    </div>
+  -->
+      <main id="app-root"></main>
+
+      <footer>
+        <div class="container">
+          <h3>Synexus Core</h3>
+
+          <p class="footer-text">
+            Empowering the next generation of engineers through innovation,
+            collaboration, and hands-on learning.
+          </p>
+
+          <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+          </div>
+
+          <hr />
+
+          <p class="copyright">© 2026 Synexus Core. All Rights Reserved.</p>
+        </div>
+      </footer>
+    </header>
+  </body>
+</html>
