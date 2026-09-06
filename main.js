@@ -6,7 +6,22 @@ import {
   updateInitiative,
   deleteInitiative,
   fetchFeed,
+  fetchDashboardData,
 } from "./api.js";
+
+import { sendLiveMessage } from "./websocket.js";
+
+import { saveOfflineData } from "./db.js";
+
+import "./components/UserCard.js";
+
+const userCard = document.querySelector("user-card");
+
+setTimeout(() => {
+  userCard.setAttribute("name", "John Smith");
+  userCard.setAttribute("role", "Senior Developer");
+}, 2000);
+
 const appRoot = document.getElementById("app-root");
 
 const projectsData = [
@@ -371,6 +386,54 @@ const views = {
     </div>
   </section>
 `,
+  "/live": `
+  <section id="live">
+    <div class="container">
+      <h2>Live Terminal</h2>
+
+      <div id="live-feed"></div>
+
+      <input
+        type="text"
+        id="ws-input"
+        placeholder="Type a message..."
+      />
+
+      <button id="ws-send">Send</button>
+    </div>
+  </section>
+`,
+  "/workers": `
+  <section id="worker-demo">
+    <div class="container">
+
+      <h2>Heavy Duty Processing</h2>
+
+      <div class="loading-spinner" id="worker-spinner"></div>
+
+      <div class="worker-buttons">
+        <button id="process-btn">
+          Run Heavy Duty
+        </button>
+
+        <button id="cancel-process-btn">
+          Cancel Heavy Duty
+        </button>
+      </div>
+
+      <textarea
+        id="worker-result"
+        placeholder="Your result will appear here..."
+        readonly
+      ></textarea>
+
+      <div id="worker-success">
+        Heavy duty processing successful
+      </div>
+
+    </div>
+  </section>
+`,
 };
 function initThemeToggle() {
   const themeToggle = document.getElementById("theme-toggle");
@@ -571,6 +634,11 @@ function initProposalForm() {
     message.textContent = "";
 
     try {
+      if (!navigator.onLine) {
+        await saveOfflineData(newInitiative);
+        alert("You are offline. Your proposal has been saved locally.");
+        return;
+      }
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/posts",
         {
@@ -687,6 +755,13 @@ async function router() {
   if (path === "/feed") {
     initInfiniteScroll();
   }
+
+  if (path === "/live") {
+    initWebSocketUI();
+  }
+  if (path === "/workers") {
+    initWorkerDemo();
+  }
 }
 document.addEventListener("click", function (e) {
   const link = e.target.closest(".nav-link");
@@ -708,6 +783,7 @@ window.addEventListener("popstate", router);
 function initApp() {
   initThemeToggle();
   initMobileMenu();
+  initWebSocketUI();
   router();
 }
 
@@ -873,8 +949,27 @@ function initGithubLookup() {
   const debouncedSearch = debounce(getDeveloperProfile, 500);
 
   usernameInput.addEventListener("input", function () {
-    debouncedSearch(usernameInput.value.trim());
+    const username = usernameInput.value.trim();
+
+    debouncedSearch(username);
+
+    const url = new URL(window.location);
+
+    if (username) {
+      url.searchParams.set("user", username);
+    } else {
+      url.searchParams.delete("user");
+    }
+
+    window.history.pushState({}, "", url);
   });
+  const params = new URLSearchParams(window.location.search);
+  const userFromURL = params.get("user");
+
+  if (userFromURL) {
+    usernameInput.value = userFromURL;
+    getDeveloperProfile(userFromURL);
+  }
 }
 let currentPage = 1;
 const limit = 10;
@@ -937,4 +1032,114 @@ function initInfiniteScroll() {
   observer.observe(sentinel);
 
   fetchNextPage();
+}
+function initWebSocketUI() {
+  const input = document.getElementById("ws-input");
+  const sendButton = document.getElementById("ws-send");
+
+  if (!input || !sendButton) return;
+
+  sendButton.addEventListener("click", function () {
+    const message = input.value.trim();
+
+    if (message === "") return;
+
+    sendLiveMessage(message);
+
+    input.value = "";
+  });
+}
+/* if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+     navigator.serviceWorker.register("/sw.js")
+      .then(function () {
+        console.log("Service Worker registered.");
+      })
+      .catch(function (error) {
+        console.error("Service Worker registration failed:", error);
+      });
+  });
+} */
+function initWorkerDemo() {
+  const processButton = document.getElementById("process-btn");
+  const cancelButton = document.getElementById("cancel-process-btn");
+  const spinner = document.getElementById("worker-spinner");
+  const resultBox = document.getElementById("worker-result");
+  const successMessage = document.getElementById("worker-success");
+
+  if (
+    !processButton ||
+    !cancelButton ||
+    !spinner ||
+    !resultBox ||
+    !successMessage
+  ) {
+    return;
+  }
+
+  let myWorker = null;
+
+  function createWorker() {
+    myWorker = new Worker("./worker.js");
+
+    myWorker.onmessage = function (e) {
+      console.log("Result:", e.data);
+
+      processButton.disabled = false;
+      cancelButton.disabled = true;
+
+      resultBox.textContent = "";
+
+      successMessage.classList.add("show");
+
+      setTimeout(function () {
+        successMessage.classList.remove("show");
+      }, 3000);
+    };
+
+    myWorker.onerror = function (error) {
+      console.error("Worker error:", error);
+
+      processButton.disabled = false;
+      cancelButton.disabled = true;
+
+      resultBox.textContent = "Something went wrong while processing.";
+    };
+  }
+
+  createWorker();
+
+  // Spinner is ALWAYS visible
+  spinner.style.display = "block";
+
+  // Cancel starts disabled
+  cancelButton.disabled = true;
+
+  processButton.addEventListener("click", function () {
+    if (!myWorker) {
+      createWorker();
+    }
+
+    resultBox.textContent = "";
+    successMessage.classList.remove("show");
+
+    processButton.disabled = true;
+    cancelButton.disabled = false;
+
+    myWorker.postMessage("START");
+  });
+
+  cancelButton.addEventListener("click", function () {
+    if (!myWorker) return;
+
+    myWorker.terminate();
+    myWorker = null;
+
+    processButton.disabled = false;
+    cancelButton.disabled = true;
+
+    resultBox.textContent = "Heavy duty processing cancelled.";
+
+    console.log("Worker terminated.");
+  });
 }

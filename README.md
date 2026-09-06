@@ -34,4 +34,11 @@
 ✅ Day 32 – Modularization
 ✅ Day 33 – Fetch Data from Cache
 ✅ Day 34 – Resilient Networks
-✅ Day 35 – Local Storage
+✅ Day 35 – API Authentication
+✅ Day 36 – URL Search Parameters
+✅ Day 37 – Parallel Network Architecture
+✅ Day 38 – Realtime Bidirectional Data (WebSockets)
+✅ Day 39 – Offline Access Architecture
+✅ Day 40 – Offline ClientSide Database Established
+✅ Day 41 – WebWorkers
+✅ Day 42 – Web Components Demo

@@ -1,4 +1,5 @@
 import { fetchWithRetry, getAuthHeaders } from "./utils.js";
+
 export async function secureDeleteResource(targetId) {
   const token = localStorage.getItem("auth_token");
 
@@ -65,6 +66,11 @@ export async function fetchRepositories(username) {
 }
 
 export async function updateInitiative(id) {
+  if (!navigator.onLine) {
+    await saveOfflineData(payload);
+    alert("You are offline. Your proposal has been saved locally.");
+    return;
+  }
   const response = await fetch(
     "https://jsonplaceholder.typicode.com/posts/" + id,
     {
@@ -112,4 +118,37 @@ export async function fetchFeed(page, limit) {
   }
 
   return await response.json();
+}
+export async function fetchDashboardData(username) {
+  const profilePromise = fetchWithRetry(
+    `https://api.github.com/users/${username}`,
+  );
+
+  const reposPromise = fetchWithRetry(
+    `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`,
+  );
+
+  const followersPromise = fetchWithRetry(
+    `https://api.github.com/users/${username}/followers`,
+  );
+
+  const responses = await Promise.all([
+    profilePromise,
+    reposPromise,
+    followersPromise,
+  ]);
+
+  const parsedData = await Promise.all(
+    responses.map(function (response) {
+      return response.json();
+    }),
+  );
+
+  const [profile, repos, followers] = parsedData;
+
+  return {
+    profile,
+    repos,
+    followers,
+  };
 }

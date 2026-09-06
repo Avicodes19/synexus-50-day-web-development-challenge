@@ -18,9 +18,12 @@
       <header>
         <nav>
           <div class="logo">
-            <a href="/" class="nav-link">Synexus Core</a>
+            <a href="/" class="logo">
+              Synexus <span>Core</span>
+            </a>
           </div>
 
+        <script type="module" src="./main.js"></script>
           <ul class="nav-links">
             <li>
               <a href="/" class="nav-link">Home</a>
@@ -51,6 +54,12 @@
             <li>
             <a href="/feed" class="nav-link">Feed</a>
             </li>
+            <li>
+            <a href="/live" class="nav-link">Live</a>
+            </li>
+            <li>
+            <a href="/workers" class="nav-link">Workers</a>
+            </li>
           </ul>
 
           <button id="theme-toggle" aria-label="Toggle theme">☀️</button>
@@ -58,6 +67,15 @@
           <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
         </nav>
       </header>
+
+      <section class="web-component-demo">
+  <h2>Web Component Demo</h2>
+
+  <user-card
+    name="Jane Doe"
+    role="Frontend Developer"
+  ></user-card>
+</section>
       <!--
       <main id="main-content">
       <section id="home">
