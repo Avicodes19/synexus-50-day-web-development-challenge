@@ -40,3 +40,5 @@
 ✅ Day 38 – Realtime Bidirectional Data (WebSockets)
 ✅ Day 39 – Offline Access Architecture
 ✅ Day 40 – Offline ClientSide Database Established
+✅ Day 41 – WebWorkers
+✅ Day 42 – Web Components Demo
