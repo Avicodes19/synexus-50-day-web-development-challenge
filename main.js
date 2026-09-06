@@ -13,6 +13,8 @@ import { sendLiveMessage } from "./websocket.js";
 
 import { saveOfflineData } from "./db.js";
 
+import { globalStore } from "./store.js";
+
 import "./components/UserCard.js";
 
 const userCard = document.querySelector("user-card");
@@ -109,7 +111,7 @@ const views = {
             <h3>Our Vision</h3>
             <p>
               Build a thriving engineering community that inspires
-              innovation and prepares students for the future.
+              innovative thinking and prepares the younger generation for the future.
             </p>
           </div>
 
@@ -440,23 +442,32 @@ function initThemeToggle() {
 
   if (!themeToggle) return;
 
-  const savedTheme = localStorage.getItem("synexus_theme");
+  const savedTheme = localStorage.getItem("theme");
 
-  if (savedTheme === "light") {
-    document.body.classList.add("light-theme");
-    themeToggle.textContent = "🌙";
+  if (savedTheme) {
+    globalStore.setState({
+      userTheme: savedTheme,
+    });
   }
 
-  themeToggle.addEventListener("click", function () {
-    document.body.classList.toggle("light-theme");
+  const renderTheme = (state) => {
+    document.body.classList.toggle("light-theme", state.userTheme === "light");
 
-    if (document.body.classList.contains("light-theme")) {
-      localStorage.setItem("synexus_theme", "light");
-      themeToggle.textContent = "🌙";
-    } else {
-      localStorage.setItem("synexus_theme", "dark");
-      themeToggle.textContent = "☀️";
-    }
+    themeToggle.textContent = state.userTheme === "light" ? "☀️" : "🌙";
+  };
+
+  renderTheme(globalStore.state);
+
+  globalStore.subscribe(renderTheme);
+
+  themeToggle.addEventListener("click", () => {
+    const newTheme = globalStore.state.userTheme === "light" ? "dark" : "light";
+
+    globalStore.setState({
+      userTheme: newTheme,
+    });
+
+    localStorage.setItem("theme", newTheme);
   });
 }
 
