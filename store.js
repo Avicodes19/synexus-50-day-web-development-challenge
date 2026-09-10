@@ -19,6 +19,10 @@ class StateStore {
 
     this.listeners.forEach((listener) => listener(this.state));
   }
+
+  getState() {
+    return this.state;
+  }
 }
 
 export const globalStore = new StateStore({

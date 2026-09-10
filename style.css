@@ -1667,3 +1667,18 @@ footer hr {
   max-width: 100%;
   margin: 0 auto;
 }
+
+.reactive-demo {
+  padding: 70px 20px;
+  text-align: center;
+  border-top: 1px solid #333;
+}
+
+.reactive-demo h2 {
+  margin-bottom: 30px;
+}
+
+.reactive-demo cart-counter,
+.reactive-demo product-button {
+  margin: 8px;
+}

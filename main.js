@@ -16,6 +16,8 @@ import { saveOfflineData } from "./db.js";
 import { globalStore } from "./store.js";
 
 import "./components/UserCard.js";
+import "./components/CartCounter.js";
+import "./components/ProductButton.js";
 
 const userCard = document.querySelector("user-card");
 
@@ -93,6 +95,14 @@ const views = {
       <div class="hero-right">
         <p>Engineering students collaborating on a project</p>
       </div>
+    </section>
+
+    <section class="reactive-demo">
+      <h2>Reactive Components</h2>
+
+        <cart-counter></cart-counter>
+
+      <product-button></product-button>
     </section>
   `,
 

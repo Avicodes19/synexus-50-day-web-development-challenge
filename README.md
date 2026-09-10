@@ -42,3 +42,5 @@
 ✅ Day 40 – Offline ClientSide Database Established
 ✅ Day 41 – WebWorkers
 ✅ Day 42 – Web Components Demo
+✅ Day 43 – Global State Management
+✅ Day 44 – Reactive Components
