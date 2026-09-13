@@ -14,16 +14,23 @@ class CartCounter extends HTMLElement {
   }
 
   .counter {
-    display: inline-block;
-    padding: 10px 18px;
-    border: 1px solid #444;
+    display: inline-flex;
+    align-items: center;
+
+    padding: 9px 15px;
+
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: #262920;
-    color: #dab263;
-    font-size: 14px;
+
+    background: var(--card-bg);
+    color: var(--primary-light);
+
+    font-size: 13px;
   }
 
   #count {
+    margin-left: 5px;
+    color: var(--text-color);
     font-weight: 600;
   }
 </style>
@@ -37,10 +44,8 @@ class CartCounter extends HTMLElement {
   connectedCallback() {
     const countElement = this.shadowRoot.querySelector("#count");
 
-    // Bonus: render the current state immediately
     countElement.textContent = globalStore.getState().cartCount;
 
-    // Subscribe to future state changes
     this.unsubscribe = globalStore.subscribe((state) => {
       countElement.textContent = state.cartCount;
     });

@@ -18,6 +18,7 @@ import { globalStore } from "./store.js";
 import "./components/UserCard.js";
 import "./components/CartCounter.js";
 import "./components/ProductButton.js";
+import "./components/CustomModal.js";
 
 const userCard = document.querySelector("user-card");
 
@@ -96,14 +97,51 @@ const views = {
         <p>Engineering students collaborating on a project</p>
       </div>
     </section>
+    <section class="reactive-components">
+  <div class="section-heading">
+    <h2>Developer Essentials</h2>
+    <p>
+      Components communicating through a shared global state.
+    </p>
+  </div>
 
-    <section class="reactive-demo">
-      <h2>Reactive Components</h2>
+  <div class="product-grid">
+    <product-button
+      name="Developer Laptop"
+      icon="💻"
+      price="₹75,000"
+    ></product-button>
 
-        <cart-counter></cart-counter>
+    <product-button
+      name="Mechanical Keyboard"
+      icon="⌨️"
+      price="₹6,500"
+    ></product-button>
 
-      <product-button></product-button>
-    </section>
+    <product-button
+      name="Wireless Mouse"
+      icon="🖱️"
+      price="₹2,499"
+    ></product-button>
+
+    <product-button
+      name="HD Webcam"
+      icon="🎥"
+      price="₹4,999"
+    ></product-button>
+
+    <product-button
+      name="USB Microphone"
+      icon="🎙️"
+      price="₹5,499"
+    ></product-button>
+  </div>
+
+  <div class="cart-status">
+    <span>Items in cart</span>
+    <cart-counter></cart-counter>
+  </div>
+</section>
   `,
 
   "/about": `
@@ -805,6 +843,7 @@ function initApp() {
   initThemeToggle();
   initMobileMenu();
   initWebSocketUI();
+  initModalDemo();
   router();
 }
 
@@ -1162,5 +1201,32 @@ function initWorkerDemo() {
     resultBox.textContent = "Heavy duty processing cancelled.";
 
     console.log("Worker terminated.");
+  });
+}
+function initModalDemo() {
+  const deleteModal = document.getElementById("delete-modal");
+  const successModal = document.getElementById("success-modal");
+
+  const deleteButton = document.getElementById("show-delete-modal");
+  const successButton = document.getElementById("show-success-modal");
+
+  if (!deleteModal || !successModal || !deleteButton || !successButton) {
+    return;
+  }
+
+  deleteButton.addEventListener("click", () => {
+    deleteModal.open();
+
+    setTimeout(() => {
+      deleteModal.close();
+    }, 4000);
+  });
+
+  successButton.addEventListener("click", () => {
+    successModal.open();
+
+    setTimeout(() => {
+      successModal.close();
+    }, 4000);
   });
 }
